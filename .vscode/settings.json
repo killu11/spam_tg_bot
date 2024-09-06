@@ -1,0 +1,8 @@
+{
+    "cSpell.words": [
+        "dotenv",
+        "telebot"
+    ],
+    "cSpell.language": "en,ru",
+    "python.analysis.typeCheckingMode": "basic"
+}

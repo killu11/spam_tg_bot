@@ -41,7 +41,7 @@ async def start(message: Message) :
     db = Database()
     user_id = message.from_user.id
     if db.get_current_admin(user_id): ##является ли юзер, обращающийся к боту АДМИНОМ
-        admin_keyboard = types.InlineKeyboardMarkup(inline_keyboard = [[Buttons.reboot_spam.value ,Buttons.stop_send_text.value]]) ##панель для админа
+        admin_keyboard = types.InlineKeyboardMarkup(inline_keyboard = [[Buttons.reboot_spam.value]]) ##панель для админа
         
         await message.answer(text = f'Доброго времени суток, {message.from_user.full_name}!\n{html.bold('Выберите один из пунктов меню:')}', reply_markup = admin_keyboard)
         db.connect.close()
@@ -52,7 +52,10 @@ async def start(message: Message) :
         await message.answer(f'Здравствуйте,{message.from_user.full_name}, чем могу помочь?', reply_markup=user_keyboard)
         db.connect.close
 
-
+@dp.callback_query()
+async def get_contacts(callback_query: types.CallbackQuery):
+    if callback_query.data == 'contact':
+        await bot.send_message(chat_id = callback_query.from_user.id , text = 'По всем вопросам обращаться к 👉 <a href = "https://t.me/Shinshilladmin">Администратору</a>.')
 
 @dp.callback_query()
 async def start_spam_button(callback_query: types.CallbackQuery):
@@ -77,7 +80,6 @@ async def start_spam_button(callback_query: types.CallbackQuery):
             db.delete_group(id)
             await bot.send_message(chat_id = '869803539', text = f'Был удален из бд следущий чат: {id}')
         
-
 
 @dp.my_chat_member(ChatMemberUpdatedFilter(member_status_changed = JOIN_TRANSITION))
 async def add_to_chat(chat_member_updated: types.ChatMemberUpdated) :

@@ -1,1 +1,1 @@
-# headhunter_bot
+# spam_tg_bot
